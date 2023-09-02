@@ -2842,7 +2842,7 @@ npcWalkInPlace2:
 npcWalkInPlace3:
     ld   A, C                                          ;; 03:5025 $79
     cp   A, $00                                        ;; 03:5026 $fe $00
-    ld   C, $3c                                        ;; 03:5028 $0e $5a
+    ld   C, $3c
     call Z, call_03_55cb                               ;; 03:502a $cc $cb $55
     call processDelayWithMovingHold
     ret                                                ;; 03:5030 $c9
