@@ -2266,7 +2266,7 @@ npcActionJumptable:
     dw   npcWalkSpeedDefault                           ;; 03:4c73 pP $0f
     dw   npcWalkInPlace1                               ;; 03:4c75 pP $10
     dw   npcWalkInPlace2                               ;; 03:4c77 pP $11
-    dw   npcWalkInPlace3                               ;; 03:4c79 ?? $12
+    dw   npcWalkInPlaceWithMovingHold2                 ;; 03:4c79 ?? $12
     dw   npcWalkInPlace4                               ;; 03:4c7b pP $13
     dw   npcWalkInPlace5                               ;; 03:4c7d ?? $14
     dw   npcWalkInPlace6                               ;; 03:4c7f ?? $15
@@ -2839,7 +2839,7 @@ npcWalkInPlace2:
     call processDelay                                  ;; 03:5021 $cd $df $55
     ret                                                ;; 03:5024 $c9
 
-npcWalkInPlace3:
+npcWalkInPlaceWithMovingHold2:
     ld   A, C                                          ;; 03:5025 $79
     cp   A, $00                                        ;; 03:5026 $fe $00
     ld   C, $3c
