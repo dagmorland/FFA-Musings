@@ -245,6 +245,7 @@ scriptOpcodeTable:
     dw   scriptOpCodeSetNextRoom                       ;; 02:4754 pP $ef
     dw   scriptOpCodeDelay                             ;; 02:4756 pP $f0
     dw   scriptOpCodeFullHealDummyFA                   ;; 02:4758 ?? $f1
+    ; this changes to scriptOpCodeNOP in UKV
     dw   scriptOpCodeFullHealDummyFA                   ;; 02:475a ?? $f2
     dw   scriptOpCodeLoadRoomInstant                   ;; 02:475c pP $f3
     dw   scriptOpCodeLoadRoom                          ;; 02:475e pP $f4

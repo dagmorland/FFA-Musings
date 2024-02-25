@@ -23,6 +23,7 @@ mapRoomPointers_07:
     dw   map07_room0f_00_script, map07_room0f_00_tiles ;; 07:7bf1 $75 $7e $78 $7e
     dw   map07_room00_01_script, map07_room00_01_tiles ;; 07:7bf5 $a7 $7e $aa $7e
     dw   map07_room01_01_script, map07_room01_01_tiles ;; 07:7bf9 $e2 $7e $e5 $7e
+    ; points to 7f1d
     dw   map07_room02_01_script, map07_room02_01_tiles ;; 07:7bfd $20 $7f $23 $7f
     dw   map07_room03_01_script, map07_room03_01_tiles ;; 07:7c01 $2b $7f $2e $7f
     dw   map07_room04_01_script, map07_room04_01_tiles ;; 07:7c05 $36 $7f $39 $7f
@@ -280,6 +281,7 @@ map07_room01_01_script:
     SCRIPT_IDX script_003d                             ;; 07:7ee2 $3d $00
     db   $ff                                           ;; 07:7ee4 $ff
 
+; This whole room changes
 map07_room01_01_tiles:
     RLE  $13, $13, $13, $13, $13, $13, $28, $13, $13, $13 ;; 07:7ee5 .......
     RLE  $13, $2c, $2d, $2e, $2f, $30, $35, $36, $37, $13 ;; 07:7eec ..........
