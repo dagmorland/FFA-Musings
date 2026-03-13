@@ -6027,9 +6027,9 @@ roomSubScriptExecute:
 roomScriptSetup:
     ld   A, [wMapTableBankNr]
     call pushBankNrAndSwitch
-    ld   A, [wRoomScriptTableHigh]
-    ld   H, A
-    ld   A, [wRoomScriptTableLow]
+    ld   HL, wRoomScriptTableLow
+    ld   A, [HL+]
+    ld   H, [HL]
     ld   L, A
     ld   A, [HL+]
     ld   H, [HL]
@@ -6071,10 +6071,9 @@ checkScriptActions:
 
 ; B: player facing direction
 ; C: trigger collision flags
-; HL: script index
+; DE: script index
 enqueueScriptAction:
     ld   HL, wScriptActionCount
-    push HL
     ld   A, [HL]
     cp   A, 18 ; set to the size of the stack
     ret  NC ; not enough space
@@ -6109,7 +6108,7 @@ enqueueScriptAction:
     cp   A, B
     ret  Z
 .increment_count:
-    pop  HL
+    ld   HL, wScriptActionCount
     inc  [HL]
     ret
 
@@ -6146,6 +6145,8 @@ startNextScriptAction:
     call popBankNrAndSwitch
     call getBankNrForScript
     jp   getNextScriptInstruction
+
+ds 1 ; Free space
 
 ; A = YX tile location (Y in top nibble, X in bottom nibble)
 ; Return: HL pointer to the metatile in wRoomTiles
