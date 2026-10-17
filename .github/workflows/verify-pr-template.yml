@@ -1,0 +1,61 @@
+name: Validate Issue Reference
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Linked Issue Exists
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const targetBranch = pr.base.ref;
+            const body = pr.body || "";
+            
+            // 1. Check if the PR description is completely empty
+            if (body.trim().length === 0) {
+              core.setFailed("PR description is empty. Please fill out the PR template.");
+              return;
+            }
+
+            // 2. Check if placeholders were left unchanged
+            const uneditedPlaceholders = ["[Write summary here]", "Closes #<!-- Issue Number (required for RAI project) -->"];
+            const hasPlaceholders = uneditedPlaceholders.some(p => body.includes(p));
+
+            if (hasPlaceholders) {
+              core.setFailed("Please fill out all required placeholders in the PR template before requesting a review.");
+            }
+
+            if (targetBranch === "raiar" || targetBranch === "raiad") {
+                // Regex to find patterns like "Closes #123", "Fixes #123", or just "#123"
+                const issueRegex = /(?:close[sd]?|fix(?:es|ed)?|resolve[sd]?)?\s*#(\d+)/gi;
+                const matches = [...body.matchAll(issueRegex)];
+
+                if (matches.length === 0) {
+                  core.setFailed("PR must reference at least one valid issue (e.g., 'Closes #123').");
+                  return;
+                }
+
+                // Verify each found issue actually exists in the repo
+                const owner = context.repo.owner;
+                const repo = context.repo.repo;
+
+                for (const match of matches) {
+                  const issueNumber = parseInt(match[1], 10);
+                  try {
+                    await github.rest.issues.get({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                    });
+                    console.log(`Verified issue #${issueNumber} exists.`);
+                  } catch (error) {
+                    core.setFailed(`Issue #${issueNumber} referenced in the PR description does not exist or is invalid.`);
+                  }
+                }
+            }
+
