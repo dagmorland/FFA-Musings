@@ -6,7 +6,7 @@ INCLUDE "include/charmaps.inc"
 INCLUDE "include/constants.inc"
 
 SECTION "bank00", ROM0[$0000]
-    db   $c3, $50, $01                                 ;; 00:0000 ???
+    db   $c3, $50, $01                                 ;; 00:0000 ?????
 
 SECTION "isrVBlank", ROM0[$0040]
 
