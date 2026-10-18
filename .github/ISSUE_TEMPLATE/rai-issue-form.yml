@@ -1,0 +1,28 @@
+name: RAI Issue Form
+description: Issue form for the ROM-As-Intended project with structured fields
+title: ""
+labels: ["RAI"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide sufficient description of the issue.
+    validations:
+      required: true
+  - type: dropdown
+    id: target
+    attributes:
+      label: ROM-As-Intended Release Target
+      options:
+        - RAI-AR (At Release)
+        - RAI-AD (At Design)
+    validations:
+      required: true
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justification for Release Target
+      description: Why is this issue not as-intended at release or design?
+    validations:
+      required: false
