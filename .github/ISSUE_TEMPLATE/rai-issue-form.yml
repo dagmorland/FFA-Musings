@@ -1,6 +1,5 @@
 name: RAI Issue Form
 description: Issue form for the ROM-As-Intended project with structured fields
-title: ""
 labels: ["RAI"]
 body:
   - type: textarea
