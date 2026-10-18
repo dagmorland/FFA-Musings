@@ -1,4 +1,4 @@
-## Welcome to the Final Fantasy Adventure (GB) Disassembly.
+## Welcome to Dagmor's Final Fantasy Adventure (GB) Musings
 
 # Blog
 
