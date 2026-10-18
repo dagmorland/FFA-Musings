@@ -38,20 +38,38 @@ jobs:
               return;
             }
 
-            // Verify each found issue actually exists in the repo
+            // Verify each found issue exists and has the required label
             const owner = context.repo.owner;
             const repo = context.repo.repo;
+            const requiredLabel = "RAI"; // Change this to your required template label (e.g., "enhancement", "feature")
 
             for (const match of matches) {
               const issueNumber = parseInt(match[1], 10);
               try {
-                await github.rest.issues.get({
+                const issueResponse = await github.rest.issues.get({
                   owner,
                   repo,
                   issue_number: issueNumber,
                 });
-                console.log(`Verified issue #${issueNumber} exists.`);
+
+                const issue = issueResponse.data;
+
+                // Ensure it's an issue and not a PR
+                if (issue.pull_request) {
+                  core.setFailed(`❌ #${issueNumber} is a Pull Request, not an Issue.`);
+                  continue;
+                }
+
+                // Check if the issue has the required template label
+                const hasRequiredLabel = issue.labels.some(label => label.name.toLowerCase() === requiredLabel.toLowerCase());
+
+                if (!hasRequiredLabel) {
+                  core.setFailed(`❌ Linked Issue #${issueNumber} does not have the required label: "${requiredLabel}". Make sure it was created using the correct template.`);
+                  return;
+                }
+
+                console.log(`Verified issue #${issueNumber} exists and has the required "${requiredLabel}" label.`);
               } catch (error) {
-                core.setFailed(`Issue #${issueNumber} referenced in the PR description does not exist or is invalid.`);
+                core.setFailed(`❌ Issue #${issueNumber} referenced in the PR description does not exist or could not be verified: ${error.message}`);
               }
             }
