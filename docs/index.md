@@ -1,3 +1,5 @@
+If you don't recognize the title. Stop here and go play the original game.
+
 # Sections
 
 * [Glitch Encyclopedia](glitch)

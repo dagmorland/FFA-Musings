@@ -1,3 +1,5 @@
+[*Back home*](index)
+
 # Gemma Knight Edition (GKE)
 
 An enhanced version of the original game that stays true to the original

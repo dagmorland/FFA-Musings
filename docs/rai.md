@@ -1,3 +1,5 @@
+[*Back home*](index)
+
 # The ROM-As-Intended Project
 
 As an engineer and software developer, I have always been amazed (and jealous)
@@ -22,7 +24,8 @@ parts:
 
 1. **RAI-AR (at release)**: strictly focused on bug fixes that try to meet the
 director's intended feature set on release. This includes things like warp
-fixes, trigger tile glitches, and flaky PRNG.  2. **RAI-AD (at design)**: a set
+fixes, trigger tile glitches, and flaky PRNG.  
+2. **RAI-AD (at design)**: a set
 of curated feature enhancements that try to capture the director's intent with
 the game at the design review stage. This includes things like making the
 follower leap with the player with chain pulls, removing the artificial gold
@@ -58,7 +61,7 @@ I'm not there yet, but there will be releases posted through Github directly
 and also to romhacking.net. I'll provide links once they are available.
 
 **RAI Project patches require existing official ROM files. Support
-Squaresoft!**
+Square!**
 
 # RAI At Release Fixes
 
