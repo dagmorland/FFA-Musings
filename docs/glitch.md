@@ -10,7 +10,7 @@ causes damage from spikes/lava, or more importantly executes internal scripts
 like 'load a new room' or 'reveal a staircase'. There are multiple ways trigger
 tiles can be skipped, which leads to warps, or puzzles that have to be reloaded.
 
-<div style="border: 1px solid #e1e4e8; padding: 20px; border-radius: 6px; background-color: #f6f8fa; margin-bottom: 20px;">
+<div markdown="1" style="border: 1px solid #e1e4e8; padding: 20px; border-radius: 6px; background-color: #f6f8fa; margin-bottom: 20px;">
 
 ### Trigger Tile Misses from 8 Pixel Snapping
 
