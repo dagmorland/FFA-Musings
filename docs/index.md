@@ -1,4 +1,4 @@
-If you don't recognize the title. Stop here and go play the original game.
+If you don't know the value of a bag of Fang, stop here and go play the original game.
 
 # Sections
 
