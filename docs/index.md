@@ -40,9 +40,9 @@ noob like me could've asked for.  I quickly got pleasantly lost in the
 disassembly, started making patches for LotMS, fixing old glitches, and
 discovering new glitches. That led me down a diversion exploiting these newly
 found glitches for speedrunning. Since then, I've been lucky enough to secure
-[four world records](https://www.speedrun.com/users/dagmor) (so far) and had a
+[a few world records](https://www.speedrun.com/users/dagmor) and had a
 blast [discussing strats](speedrun) and cheering on my fellow speedrunners from
-all over the globe. The whole community continuous to find new glitches to
+all over the globe. The whole community continues to find new glitches to
 exploit decades later; it's amazing.
 
 But what about that glitch outside the Wendel shrine!? Well it wasn't until
