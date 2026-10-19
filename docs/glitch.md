@@ -11,7 +11,7 @@ like 'load a new room' or 'reveal a staircase'. There are multiple ways trigger
 tiles can be skipped, which leads to warps, or puzzles that have to be reloaded.
 
 <fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
-<legend style="padding: 0 8px; font-weight: bold; color: inherit;">Trigger Tile Misses from 8 Pixel Snapping</legend>
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Trigger Tile Misses from 8 Pixel Snapping</legend>
 
 #### Synopsis
 
@@ -58,6 +58,7 @@ annoying, not exploitable.
 #### Example
 
 Completing a puzzle that doesn't work like it should.
+
 Warping from Wendel to the Mana Shrine.
 
 </fieldset>
