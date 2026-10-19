@@ -1711,7 +1711,7 @@ moveObject:
     ld   HL, wMainGameStateFlags                       ;; 00:0a1b $21 $a1 $c0
     bit  1, [HL]                                       ;; 00:0a1e $cb $4e
     jr   NZ, .jr_00_0a25                               ;; 00:0a20 $20 $03
-    call call_00_1815                                  ;; 00:0a22 $cd $15 $18
+    call prepareTileScriptOrSpikeDamage                ;; 00:0a22 $cd $15 $18
 .jr_00_0a25:
     call call_00_177e                                  ;; 00:0a25 $cd $7e $17
     xor  A, A                                          ;; 00:0a28 $af
@@ -4083,7 +4083,7 @@ call_00_177e:
     ld   B, A                                          ;; 00:1812 $47
     jr   .finish                                       ;; 00:1813 $18 $e0
 
-call_00_1815:
+prepareTileScriptOrSpikeDamage:
     push DE                                            ;; 00:1815 $d5
     push AF                                            ;; 00:1816 $f5
     push BC                                            ;; 00:1817 $c5
@@ -6915,27 +6915,28 @@ HLandDE:
 ; It has been modified to check for tile interactions.
 snapObjectToNearestTile8:
     push BC
-    call getObjectDirection
-    and  A, $0f
-    push AF
+    call getObjectDirection ; sets HL to entry in wObjectRuntimeData
+    and  A, $0f ; retain just facing direction
+    ld   B, A
     inc  HL
     inc  HL
-    ld   A, [HL+]
+    ld   A, [HL+] ; collision flags
     inc  HL
     ld   C, A
-    ld   A, [HL+]
+    ld   A, [HL+] ; y position
     call snapPositionToNearestTile8
     ld   D, A
-    ld   A, [HL]
+    ld   A, [HL] ; x position
     call snapPositionToNearestTile8
     ld   E, A
-    pop  AF
-    push AF
-    call call_00_1815
-    pop  AF
+    ld   A, B
+    ; Check for tile or spike damage interactions on 8px snaps
+    call prepareTileScriptOrSpikeDamage
+    ld   A, B
     pop  BC
     ld   B, $00
-    jp   updateObjectPosition
+    call updateObjectPosition
+    ret
 
 snapPositionToNearestTile8:
     and  A, $fc                                        ;; 00:29dc $e6 $fc
