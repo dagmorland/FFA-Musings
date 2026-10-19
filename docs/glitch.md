@@ -37,13 +37,17 @@ into Wendel, but instead wound up warping to the Mana Shrine because I missed
 the trigger tile. This glitch is also the reason for one of the most common
 annoyances in FFA: puzzle room failures.  The speedrun community has plenty of
 horror stories of completing a snowman puzzle room only for the staircase to
-not appear. It's not *always* this bugs fault, but it *usually* is.
+not appear. It's not *always* this bug's fault, but it *usually* is.
 
 #### Rationale to Fix
 
 Ishii-san certainly would not have wanted players to struggle with puzzle rooms
 even when performed correctly, nor would he have wanted players to warp around
 without reason.
+
+#### RAI Issue
+
+[Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31)
 
 #### Possible Exploits
 
