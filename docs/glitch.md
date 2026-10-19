@@ -39,15 +39,10 @@ annoyances in FFA: puzzle room failures.  The speedrun community has plenty of
 horror stories of completing a snowman puzzle room only for the staircase to
 not appear. It's not *always* this bug's fault, but it *usually* is.
 
-#### Rationale to Fix
+#### RAI Status
 
-Ishii-san certainly would not have wanted players to struggle with puzzle rooms
-even when performed correctly, nor would he have wanted players to warp around
-without reason.
-
-#### RAI Issue
-
-[Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31)
+Issue: [Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31)
+Release Version: TBD
 
 #### Possible Exploits
 
