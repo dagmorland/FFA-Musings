@@ -1711,7 +1711,7 @@ moveObject:
     ld   HL, wMainGameStateFlags                       ;; 00:0a1b $21 $a1 $c0
     bit  1, [HL]                                       ;; 00:0a1e $cb $4e
     jr   NZ, .jr_00_0a25                               ;; 00:0a20 $20 $03
-    call call_00_1815                                  ;; 00:0a22 $cd $15 $18
+    call prepareTileScriptOrSpikeDamage                ;; 00:0a22 $cd $15 $18
 .jr_00_0a25:
     call call_00_177e                                  ;; 00:0a25 $cd $7e $17
     xor  A, A                                          ;; 00:0a28 $af
@@ -4083,7 +4083,7 @@ call_00_177e:
     ld   B, A                                          ;; 00:1812 $47
     jr   .finish                                       ;; 00:1813 $18 $e0
 
-call_00_1815:
+prepareTileScriptOrSpikeDamage:
     push DE                                            ;; 00:1815 $d5
     push AF                                            ;; 00:1816 $f5
     push BC                                            ;; 00:1817 $c5
@@ -6915,6 +6915,7 @@ HLandDE:
     or   A, H                                          ;; 00:29b8 $b4
     ret                                                ;; 00:29b9 $c9
 
+; This function snaps object C to the nearest 8px boundary.
 snapObjectToNearestTile8:
     push BC                                            ;; 00:29ba $c5
     call GetObjectY                                    ;; 00:29bb $cd $3e $0c
