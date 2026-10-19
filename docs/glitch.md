@@ -61,10 +61,10 @@ annoying, not exploitable.
 
 #### Example
 
-Warping from Wendel to the Mana Shrine.
+Warping from Wendel to the Mana Shrine.<br>
 ![Wendel Warp](img/issue31_wendel_warp.gif)
 
-Completing a puzzle that doesn't work like it should.
+Completing a puzzle that doesn't work like it should.<br>
 ![Puzzle Glitch](img/issue31_puzzle_glitch.gif)
 
 </fieldset>
