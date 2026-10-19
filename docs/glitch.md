@@ -41,7 +41,7 @@ not appear. It's not *always* this bug's fault, but it *usually* is.
 
 #### RAI Status
 
-Issue: [Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31)
+Issue: [Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31)<br>
 Release Version: TBD
 
 #### Possible Exploits
