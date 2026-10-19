@@ -61,9 +61,11 @@ annoying, not exploitable.
 
 #### Example
 
-Completing a puzzle that doesn't work like it should.
-
 Warping from Wendel to the Mana Shrine.
+![Wendel Warp](img/issue31_wendel_warp.gif)
+
+Completing a puzzle that doesn't work like it should.
+![Puzzle Glitch](img/issue31_puzzle_glitch.gif)
 
 </fieldset>
 
