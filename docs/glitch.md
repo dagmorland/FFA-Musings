@@ -64,4 +64,58 @@ Completing a puzzle that doesn't work like it should.<br>
 
 </fieldset>
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Simultaneous Script Triggers Skip the Player</legend>
+
+#### Synopsis
+
+The
+game checks when an object enters or leaves a trigger tile's space,
+governed by the 8-pixel layout mechanics. On any given frame, multiple objects (the player, NPCs, enemies, followers, etc.)
+may interact with one or multiple trigger tiles across the current map. 
+As the game is checking the list of objects for these interactions, if
+any does in fact trigger a script, then it sets that script in motion and
+ignores any other triggers on the same frame. Unfortunately, the player's tile
+interactions are typically checked last. Also unfortunately, the script itself
+checks whether a triggering object is important to the script, exiting early in
+most cases. That means if another NPC (a follower
+or an enemy) triggers a script at the same time as the player, the player's
+trigger script is ignored.
+
+#### Origin
+
+I think just about everyone that's played this game has had a staircase
+not fire when walking on it near a follower. It's not too disruptive, so
+I expect most people shrugged it off. I discovered how the glitch could be
+used for warping while testing speedrunning route ideas in March, 2023.
+In my case, I was walking south with a follower from the three door room in the Undersea
+Volcano when I surprisingly walked past the trigger tile and to the Mana Road.
+
+#### RAI Status
+
+Issue: [Simultaneous Script Triggers Skip the Player](https://github.com/dagmorland/FFA-Musings/issues/34)<br>
+Release Version: TBD
+
+#### Possible Exploits
+
+This trick was a big part of my [first world record run](https://youtu.be/fT9ewtd9kao).
+Before this, speed runners would have to use a snowman combined with a follower to sneak
+past (using a different glitch). As such, [Glasgow_Gavin](https://www.speedrun.com/users/Glasgow_Gavin)
+coined this the 'snowmanless' glitch, and it's stuck ever since.
+This trick can be used in several similar situations: warping from the Undersea
+Volcano to the Mana Road, from Ish to Glaive Castle, and from Jadd to Wendel.
+I'm sure there are others to find as well. Note that a follower isn't strictly required.
+As long as an enemy that isn't flying steps on a tile with a script trigger, the glitch
+will work.
+
+#### Example
+
+Follower blocking a staircase script trigger.<br>
+![Wendel Warp](img/issue34_stairs.gif)
+
+Warping from Undersea Volcano to the Mana Road/Shrine.<br>
+![Puzzle Glitch](img/issue34_warp.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
