@@ -16,16 +16,16 @@ tiles can be skipped, which leads to warps, or puzzles that have to be reloaded.
 #### Synopsis
 
 Because the game operates on an 8 pixel grid, sometimes the game will call a
-function to snap an 'actor' (a player, an enemy, an NPC, or even snowmen and
+function to snap an 'object' (a player, an enemy, an NPC, or even snowmen and
 chests) back on to the grid. This happens for players when they return from
 invincibility frames to a normal condition (i.e., a few seconds after being
-injured). This also happens for non-player actors when their current action
+injured). This happens for other objects like NPCs when their current action
 (e.g., move up, move left, shimmy in place) ends. Ironically, even
 Ice-magic-induced snowmen and empty chests have actions. These actions do
 nothing, but they still do the nothing action and then snap to the nearest 8
 pixel boundary. This is why pushing snowmen/chests often looks jittery -
 they're snapping to a boundary every couple seconds. Unfortunately, the
-function that snaps an actor back on grid also skips checking if they were
+function that snaps an object back on grid also skips checking if they were
 snapped to a trigger tile.
 
 #### Origin
