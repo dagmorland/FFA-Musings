@@ -3947,44 +3947,45 @@ tileScriptOrSpikeDamage:
     jr   .loop                                         ;; 00:1739 $18 $f4
 .break:
     ld   A, [HL+]                                      ;; 00:173b $2a
-    ld   H, [HL]                                       ;; 00:173c $66
-    ld   L, A                                          ;; 00:173d $6f
-    ld   A, B                                          ;; 00:173e $78
-    call runScriptByIndex                              ;; 00:173f $cd $ad $31
+    ld   D, [HL]
+    ld   E, A
+    call enqueueScriptAction
 .pop_bank_and_return:
-    call popBankNrAndSwitch                            ;; 00:1742 $cd $0a $2a
-    ret                                                ;; 00:1745 $c9
+    call popBankNrAndSwitch                            ;;# 00:1742 $cd $0a $2a
+    ret                                                ;;# 00:1745 $c9
 .no_script_bit:
-    ld   A, [wMainGameStateFlags]                      ;; 00:1746 $fa $a1 $c0
-    bit  3, A                                          ;; 00:1749 $cb $5f
-    ret  NZ                                            ;; 00:174b $c0
-    ld   A, [wPlayerDamagedTimer]                      ;; 00:174c $fa $d2 $c4
-    cp   A, $00                                        ;; 00:174f $fe $00
-    ret  NZ                                            ;; 00:1751 $c0
-    ld   A, B                                          ;; 00:1752 $78
-    and  A, $80                                        ;; 00:1753 $e6 $80
-    cp   A, $80                                        ;; 00:1755 $fe $80
-    ret  Z                                             ;; 00:1757 $c8
-    bit  6, H                                          ;; 00:1758 $cb $74
-    ret  NZ                                            ;; 00:175a $c0
-    ld   A, C                                          ;; 00:175b $79
-    and  A, $f0                                        ;; 00:175c $e6 $f0
-    cp   A, $c0                                        ;; 00:175e $fe $c0
-    ret  NZ                                            ;; 00:1760 $c0
-    ld   A, H                                          ;; 00:1761 $7c
-    swap A                                             ;; 00:1762 $cb $37
-    and  A, $03                                        ;; 00:1764 $e6 $03
-    ret  Z                                             ;; 00:1766 $c8
-    ld   L, A                                          ;; 00:1767 $6f
-    ld   H, $00                                        ;; 00:1768 $26 $00
-    ld   A, [wLevel]                                   ;; 00:176a $fa $ba $d7
-    call MultiplyHL_by_A                               ;; 00:176d $cd $7b $2b
-    call subHP                                         ;; 00:1770 $cd $25 $3e
-    ld   A, $0d                                        ;; 00:1773 $3e $0d
-    call playSFX                                       ;; 00:1775 $cd $7d $29
-    ld   A, $33                                        ;; 00:1778 $3e $33
-    ld   [wPlayerDamagedTimer], A                      ;; 00:177a $ea $d2 $c4
-    ret                                                ;; 00:177d $c9
+    ld   A, [wMainGameStateFlags]                      ;;# 00:1746 $fa $a1 $c0
+    bit  3, A                                          ;;# 00:1749 $cb $5f
+    ret  NZ                                            ;;# 00:174b $c0
+    ld   A, [wPlayerDamagedTimer]                      ;;# 00:174c $fa $d2 $c4
+    cp   A, $00                                        ;;# 00:174f $fe $00
+    ret  NZ                                            ;;# 00:1751 $c0
+    ld   A, B                                          ;;# 00:1752 $78
+    and  A, $80                                        ;;# 00:1753 $e6 $80
+    cp   A, $80                                        ;;# 00:1755 $fe $80
+    ret  Z                                             ;;# 00:1757 $c8
+    bit  6, H                                          ;;# 00:1758 $cb $74
+    ret  NZ                                            ;;# 00:175a $c0
+    ld   A, C                                          ;;# 00:175b $79
+    and  A, $f0                                        ;;# 00:175c $e6 $f0
+    cp   A, $c0                                        ;;# 00:175e $fe $c0
+    ret  NZ                                            ;;# 00:1760 $c0
+    ld   A, H                                          ;;# 00:1761 $7c
+    swap A                                             ;;# 00:1762 $cb $37
+    and  A, $03                                        ;;# 00:1764 $e6 $03
+    ret  Z                                             ;;# 00:1766 $c8
+    ld   L, A                                          ;;# 00:1767 $6f
+    ld   H, $00                                        ;;# 00:1768 $26 $00
+    ld   A, [wLevel]                                   ;;# 00:176a $fa $ba $d7
+    call MultiplyHL_by_A                               ;;# 00:176d $cd $7b $2b
+    call subHP                                         ;;# 00:1770 $cd $25 $3e
+    ld   A, $0d                                        ;;# 00:1773 $3e $0d
+    call playSFX                                       ;;# 00:1775 $cd $7d $29
+    ld   A, $33                                        ;;# 00:1778 $3e $33
+    ld   [wPlayerDamagedTimer], A                      ;;# 00:177a $ea $d2 $c4
+    ret                                                ;;# 00:177d $c9
+
+ds 1 ; Free space
 
 call_00_177e:
     srl  D                                             ;; 00:177e $cb $3a
@@ -5485,7 +5486,7 @@ mainLoopPostInput:
     ld   A, $00                                        ;; 00:2190 $3e $00
     call spriteShuffleDoFlash_trampoline               ;; 00:2192 $cd $3b $04
     call animateTiles_trampoline                       ;; 00:2195 $cd $70 $1a
-    call runRoomScriptIfAllEnemiesDefeated_trampoline  ;; 00:2198 $cd $1a $29
+    call checkScriptActions
     call startScriptIfRequested                        ;; 00:219b $cd $8f $31
     call playerHousekeeping                            ;; 00:219e $cd $1b $1d
     call checkForLevelUp                               ;; 00:21a1 $cd $4b $3d
@@ -5981,139 +5982,174 @@ loadRoomMetaTilesRLE:
     ret                                                ;; 00:245f $c9
 
 runRoomScriptOnRoomEnter:
-    ld   A, [wMapTableBankNr]                          ;; 00:2460 $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:2463 $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:2466 $fa $ff $c3
-    ld   H, A                                          ;; 00:2469 $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:246a $fa $fe $c3
-    ld   L, A                                          ;; 00:246d $6f
-    ld   A, [HL+]                                      ;; 00:246e $2a
-    ld   H, [HL]                                       ;; 00:246f $66
-    ld   L, A                                          ;; 00:2470 $6f
-    push HL                                            ;; 00:2471 $e5
-    call getPlayerDirection                            ;; 00:2472 $cd $ab $02
-    and  A, $0f                                        ;; 00:2475 $e6 $0f
-    or   A, $00                                        ;; 00:2477 $f6 $00
-    ld   C, $c9                                        ;; 00:2479 $0e $c9
-    pop  HL                                            ;; 00:247b $e1
-    call runScriptByIndex                              ;; 00:247c $cd $ad $31
-    call popBankNrAndSwitch                            ;; 00:247f $cd $0a $2a
-    ret                                                ;; 00:2482 $c9
+    call roomScriptSetup
+    jr   roomScriptExecute
 
 runRoomScriptOnRoomExit:
-    ld   A, [wMapTableBankNr]                          ;; 00:2483 $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:2486 $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:2489 $fa $ff $c3
-    ld   H, A                                          ;; 00:248c $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:248d $fa $fe $c3
-    ld   L, A                                          ;; 00:2490 $6f
-    ld   A, [HL+]                                      ;; 00:2491 $2a
-    ld   H, [HL]                                       ;; 00:2492 $66
-    ld   L, A                                          ;; 00:2493 $6f
-    inc  HL                                            ;; 00:2494 $23
-    push HL                                            ;; 00:2495 $e5
-    call getPlayerDirection                            ;; 00:2496 $cd $ab $02
-    and  A, $0f                                        ;; 00:2499 $e6 $0f
-    or   A, $00                                        ;; 00:249b $f6 $00
-    ld   C, $c9                                        ;; 00:249d $0e $c9
-    pop  HL                                            ;; 00:249f $e1
-    call runScriptByIndex                              ;; 00:24a0 $cd $ad $31
-    call popBankNrAndSwitch                            ;; 00:24a3 $cd $0a $2a
-    ret                                                ;; 00:24a6 $c9
+    call roomScriptSetup
+    inc  HL
+    jr   roomScriptExecute
 
 runRoomScriptOnAllEnemiesDefeated:
-    ld   A, [wRoomClearedStatus]                       ;; 00:24a7 $fa $00 $c4
-    set  7, A                                          ;; 00:24aa $cb $ff
-    ld   [wRoomClearedStatus], A                       ;; 00:24ac $ea $00 $c4
-    ld   A, [wMapTableBankNr]                          ;; 00:24af $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:24b2 $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:24b5 $fa $ff $c3
-    ld   H, A                                          ;; 00:24b8 $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:24b9 $fa $fe $c3
-    ld   L, A                                          ;; 00:24bc $6f
-    ld   A, [HL+]                                      ;; 00:24bd $2a
-    ld   H, [HL]                                       ;; 00:24be $66
-    ld   L, A                                          ;; 00:24bf $6f
-    inc  HL                                            ;; 00:24c0 $23
-    inc  HL                                            ;; 00:24c1 $23
-    push HL                                            ;; 00:24c2 $e5
-    call getPlayerDirection                            ;; 00:24c3 $cd $ab $02
-    and  A, $0f                                        ;; 00:24c6 $e6 $0f
-    or   A, $00                                        ;; 00:24c8 $f6 $00
-    ld   C, $c9                                        ;; 00:24ca $0e $c9
-    pop  HL                                            ;; 00:24cc $e1
-    call runScriptByIndex                              ;; 00:24cd $cd $ad $31
-    call popBankNrAndSwitch                            ;; 00:24d0 $cd $0a $2a
-    ret                                                ;; 00:24d3 $c9
+    ld   HL, wRoomClearedStatus
+    set  7, [HL]
+    call roomScriptSetup
+    inc  HL
+    inc  HL
+    jr   roomScriptExecute
 
 runRoomScript:
-    ld   A, [wMapTableBankNr]                          ;; 00:24d4 $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:24d7 $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:24da $fa $ff $c3
-    ld   H, A                                          ;; 00:24dd $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:24de $fa $fe $c3
-    ld   L, A                                          ;; 00:24e1 $6f
-    ld   A, [HL+]                                      ;; 00:24e2 $2a
-    ld   H, [HL]                                       ;; 00:24e3 $66
-    ld   L, A                                          ;; 00:24e4 $6f
-    push HL                                            ;; 00:24e5 $e5
-    call getPlayerDirection                            ;; 00:24e6 $cd $ab $02
-    and  A, $0f                                        ;; 00:24e9 $e6 $0f
-    or   A, $00                                        ;; 00:24eb $f6 $00
-    ld   C, $c9                                        ;; 00:24ed $0e $c9
-    pop  HL                                            ;; 00:24ef $e1
-    call runSubScriptFromScriptByIndex                 ;; 00:24f0 $cd $13 $32
-    push HL                                            ;; 00:24f3 $e5
-    call popBankNrAndSwitch                            ;; 00:24f4 $cd $0a $2a
-    pop  HL                                            ;; 00:24f7 $e1
-    ret                                                ;; 00:24f8 $c9
+    call roomScriptSetup
+    jr   roomSubScriptExecute
 
 runRoomExitScript:
-    ld   A, [wMapTableBankNr]                          ;; 00:24f9 $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:24fc $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:24ff $fa $ff $c3
-    ld   H, A                                          ;; 00:2502 $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:2503 $fa $fe $c3
-    ld   L, A                                          ;; 00:2506 $6f
-    ld   A, [HL+]                                      ;; 00:2507 $2a
-    ld   H, [HL]                                       ;; 00:2508 $66
-    ld   L, A                                          ;; 00:2509 $6f
-    inc  HL                                            ;; 00:250a $23
-    push HL                                            ;; 00:250b $e5
-    call getPlayerDirection                            ;; 00:250c $cd $ab $02
-    and  A, $0f                                        ;; 00:250f $e6 $0f
-    or   A, $00                                        ;; 00:2511 $f6 $00
-    ld   C, $c9                                        ;; 00:2513 $0e $c9
-    pop  HL                                            ;; 00:2515 $e1
-    call runSubScriptFromScriptByIndex                 ;; 00:2516 $cd $13 $32
-    push HL                                            ;; 00:2519 $e5
-    call popBankNrAndSwitch                            ;; 00:251a $cd $0a $2a
-    pop  HL                                            ;; 00:251d $e1
-    ret                                                ;; 00:251e $c9
+    call roomScriptSetup
+    inc  HL
+    jr   roomSubScriptExecute
 
 runRoomAllKilledScript:
-    ld   A, [wMapTableBankNr]                          ;; 00:251f $fa $f0 $c3
-    call pushBankNrAndSwitch                           ;; 00:2522 $cd $fb $29
-    ld   A, [wRoomScriptTableHigh]                     ;; 00:2525 $fa $ff $c3
-    ld   H, A                                          ;; 00:2528 $67
-    ld   A, [wRoomScriptTableLow]                      ;; 00:2529 $fa $fe $c3
-    ld   L, A                                          ;; 00:252c $6f
-    ld   A, [HL+]                                      ;; 00:252d $2a
-    ld   H, [HL]                                       ;; 00:252e $66
-    ld   L, A                                          ;; 00:252f $6f
-    inc  HL                                            ;; 00:2530 $23
-    inc  HL                                            ;; 00:2531 $23
-    push HL                                            ;; 00:2532 $e5
-    call getPlayerDirection                            ;; 00:2533 $cd $ab $02
-    and  A, $0f                                        ;; 00:2536 $e6 $0f
-    or   A, $00                                        ;; 00:2538 $f6 $00
-    ld   C, $c9                                        ;; 00:253a $0e $c9
-    pop  HL                                            ;; 00:253c $e1
-    call runSubScriptFromScriptByIndex                 ;; 00:253d $cd $13 $32
-    push HL                                            ;; 00:2540 $e5
-    call popBankNrAndSwitch                            ;; 00:2541 $cd $0a $2a
-    pop  HL                                            ;; 00:2544 $e1
-    ret                                                ;; 00:2545 $c9
+    call roomScriptSetup
+    inc  HL
+    inc  HL
+    jr   roomSubScriptExecute
+
+roomScriptExecute:
+    call runScriptByIndex
+    call popBankNrAndSwitch
+    ret
+
+roomSubScriptExecute:
+    call runSubScriptFromScriptByIndex
+    push HL
+    call popBankNrAndSwitch
+    pop  HL
+    ret
+
+roomScriptSetup:
+    ld   A, [wMapTableBankNr]
+    call pushBankNrAndSwitch
+    ld   HL, wRoomScriptTableLow
+    ld   A, [HL+]
+    ld   H, [HL]
+    ld   L, A
+    ld   A, [HL+]
+    ld   H, [HL]
+    ld   L, A
+    push HL
+    call getPlayerDirection
+    and  A, $0f
+    ld   C, $c9
+    pop  HL
+    ret
+
+; Check if any script actions occurred this frame and if so prepare for execution
+checkScriptActions:
+    ld   A, [wMainGameStateFlags]
+    bit  1, A
+    ret  NZ
+    ld   HL, wScriptActionStack
+    ld   A, [HL]
+    or   A, A
+    jr   Z, .done_with_tile_scripts
+    dec  A
+    ld   [HL], A
+    add  A, A
+    add  A, A
+    inc  A
+    ld   D, 0
+    ld   E, A
+    add  HL, DE
+    ld   A, [HL+]
+    ld   C, [HL]
+    inc  HL
+    ld   E, [HL]
+    inc  HL
+    ld   L, [HL]
+    ld   H, E
+    call runScriptByIndex
+.done_with_tile_scripts:
+    call runRoomScriptIfAllEnemiesDefeated_trampoline
+    ret
+
+; B: player facing direction
+; C: trigger collision flags
+; DE: script index
+enqueueScriptAction:
+    ld   HL, wScriptActionStack
+    ld   A, [HL]
+    cp   A, 18 ; set to the size of the stack
+    ret  NC ; not enough space
+    inc  A
+    add  A, A
+    add  A, A
+    push DE
+    ld   D, 0
+    ld   E, A
+    add  HL, DE
+    pop  DE
+    ld   [HL], E
+    dec  HL
+    ld   [HL], D
+    dec  HL
+    ld   [HL], C
+    dec  HL
+    ld   [HL], B
+    dec  HL
+    ; A player/NPC can step in between two triggers with the same script.
+    ; We do not want to run the same script twice. Check here for duplicates.
+    cp   A, 4 ; A only equals 4 if the queue was empty
+    jr   Z, .increment_count
+    ld   A, [HL-]
+    cp   A, E
+    jr   NZ, .not_duplicate
+    ld   A, [HL-]
+    cp   A, D
+    jr   NZ, .not_duplicate
+    ld   A, [HL-]
+    cp   A, C
+    jr   NZ, .not_duplicate
+    ld   A, [HL-]
+    cp   A, B
+    ret  Z
+.not_duplicate:
+    ld   HL, wScriptActionStack
+.increment_count:
+    inc  [HL]
+    ret
+
+; A: number of script actions on the stack A>=1
+startNextScriptAction:
+    dec  A
+    add  A, A
+    add  A, A
+    inc  A
+    ld   HL, wScriptActionStack
+    dec  [HL]
+    ld   D, 0
+    ld   E, A
+    add  HL, DE
+    ld   A, [HL+]
+    ld   [wScriptPlayerFacingDirection], A
+    call setDirectionScriptFlags
+    ld   A, [HL+]
+    ld   [wScriptTriggerCollisionFlags], A
+    ld   A, $05
+    ld   [wTextSpeedTimer], A
+    ld   A, [HL+]
+    ld   L, [HL]
+    ld   H, A
+    call getScriptPointerFromScriptPointerTable
+    ld   A, H
+    add  A, $40
+    ld   [wScriptPointerHigh], A
+    ld   A, L
+    ld   [wScriptPointerLow], A
+    call popBankNrAndSwitch
+    call getBankNrForScript
+    call getNextScriptInstruction
+    ret
+
+ds 10 ; Free space
 
 ; A = YX tile location (Y in top nibble, X in bottom nibble)
 ; Return: HL pointer to the metatile in wRoomTiles
@@ -8216,19 +8252,22 @@ scriptOpCodeEND:
     ld   A, [wScriptStackCount]                        ;; 00:329d $fa $65 $d8
     and  A, A                                          ;; 00:32a0 $a7
     jr   NZ, .script_stack_not_empty                   ;; 00:32a1 $20 $1d
-    xor  A, A                                          ;; 00:32a3 $af
-    ld   [wScriptCommand], A                           ;; 00:32a4 $ea $5a $d8
-    ld   A, [wScriptMainGameStateBackup]               ;; 00:32a7 $fa $6e $d8
-    ld   [wMainGameState], A                           ;; 00:32aa $ea $a0 $c0
-    ld   HL, wMainGameStateFlags                       ;; 00:32ad $21 $a1 $c0
-    res  1, [HL]                                       ;; 00:32b0 $cb $8e
-    res  3, [HL]                                       ;; 00:32b2 $cb $9e
-    res  2, [HL]                                       ;; 00:32b4 $cb $96
-    ld   HL, wMainGameStateFlags.nextFrame             ;; 00:32b6 $21 $a2 $c0
-    res  1, [HL]                                       ;; 00:32b9 $cb $8e
-    res  3, [HL]                                       ;; 00:32bb $cb $9e
-    res  2, [HL]                                       ;; 00:32bd $cb $96
-    ret                                                ;; 00:32bf $c9
+    ; Check for additional scripts waiting to be executed
+    ld   A, [wScriptActionStack]
+    and  A, A
+    jp   NZ, startNextScriptAction
+    xor  A, A ; not necessary, but left for alignment
+    ld   [wScriptCommand], A
+    ld   A, [wScriptMainGameStateBackup]
+    ld   [wMainGameState], A
+    ld   HL, wMainGameStateFlags
+    ld   A, $f1
+    and  A, [HL]
+    ld   [HL+], A; move HL to wMainGameStateFlags.nextFrame
+    ld   A, $f1
+    and  A, [HL]
+    ld   [HL], A
+    ret
 .script_stack_not_empty:
     push HL                                            ;; 00:32c0 $e5
     call popBCDEfromScriptStack                        ;; 00:32c1 $cd $05 $37
