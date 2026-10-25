@@ -3951,39 +3951,39 @@ tileScriptOrSpikeDamage:
     ld   E, A
     call enqueueScriptAction
 .pop_bank_and_return:
-    call popBankNrAndSwitch                            ;; 00:1742 $cd $0a $2a
-    ret                                                ;; 00:1745 $c9
+    call popBankNrAndSwitch                            ;;# 00:1742 $cd $0a $2a
+    ret                                                ;;# 00:1745 $c9
 .no_script_bit:
-    ld   A, [wMainGameStateFlags]                      ;; 00:1746 $fa $a1 $c0
-    bit  3, A                                          ;; 00:1749 $cb $5f
-    ret  NZ                                            ;; 00:174b $c0
-    ld   A, [wPlayerDamagedTimer]                      ;; 00:174c $fa $d2 $c4
-    cp   A, $00                                        ;; 00:174f $fe $00
-    ret  NZ                                            ;; 00:1751 $c0
-    ld   A, B                                          ;; 00:1752 $78
-    and  A, $80                                        ;; 00:1753 $e6 $80
-    cp   A, $80                                        ;; 00:1755 $fe $80
-    ret  Z                                             ;; 00:1757 $c8
-    bit  6, H                                          ;; 00:1758 $cb $74
-    ret  NZ                                            ;; 00:175a $c0
-    ld   A, C                                          ;; 00:175b $79
-    and  A, $f0                                        ;; 00:175c $e6 $f0
-    cp   A, $c0                                        ;; 00:175e $fe $c0
-    ret  NZ                                            ;; 00:1760 $c0
-    ld   A, H                                          ;; 00:1761 $7c
-    swap A                                             ;; 00:1762 $cb $37
-    and  A, $03                                        ;; 00:1764 $e6 $03
-    ret  Z                                             ;; 00:1766 $c8
-    ld   L, A                                          ;; 00:1767 $6f
-    ld   H, $00                                        ;; 00:1768 $26 $00
-    ld   A, [wLevel]                                   ;; 00:176a $fa $ba $d7
-    call MultiplyHL_by_A                               ;; 00:176d $cd $7b $2b
-    call subHP                                         ;; 00:1770 $cd $25 $3e
-    ld   A, $0d                                        ;; 00:1773 $3e $0d
-    call playSFX                                       ;; 00:1775 $cd $7d $29
-    ld   A, $33                                        ;; 00:1778 $3e $33
-    ld   [wPlayerDamagedTimer], A                      ;; 00:177a $ea $d2 $c4
-    ret                                                ;; 00:177d $c9
+    ld   A, [wMainGameStateFlags]                      ;;# 00:1746 $fa $a1 $c0
+    bit  3, A                                          ;;# 00:1749 $cb $5f
+    ret  NZ                                            ;;# 00:174b $c0
+    ld   A, [wPlayerDamagedTimer]                      ;;# 00:174c $fa $d2 $c4
+    cp   A, $00                                        ;;# 00:174f $fe $00
+    ret  NZ                                            ;;# 00:1751 $c0
+    ld   A, B                                          ;;# 00:1752 $78
+    and  A, $80                                        ;;# 00:1753 $e6 $80
+    cp   A, $80                                        ;;# 00:1755 $fe $80
+    ret  Z                                             ;;# 00:1757 $c8
+    bit  6, H                                          ;;# 00:1758 $cb $74
+    ret  NZ                                            ;;# 00:175a $c0
+    ld   A, C                                          ;;# 00:175b $79
+    and  A, $f0                                        ;;# 00:175c $e6 $f0
+    cp   A, $c0                                        ;;# 00:175e $fe $c0
+    ret  NZ                                            ;;# 00:1760 $c0
+    ld   A, H                                          ;;# 00:1761 $7c
+    swap A                                             ;;# 00:1762 $cb $37
+    and  A, $03                                        ;;# 00:1764 $e6 $03
+    ret  Z                                             ;;# 00:1766 $c8
+    ld   L, A                                          ;;# 00:1767 $6f
+    ld   H, $00                                        ;;# 00:1768 $26 $00
+    ld   A, [wLevel]                                   ;;# 00:176a $fa $ba $d7
+    call MultiplyHL_by_A                               ;;# 00:176d $cd $7b $2b
+    call subHP                                         ;;# 00:1770 $cd $25 $3e
+    ld   A, $0d                                        ;;# 00:1773 $3e $0d
+    call playSFX                                       ;;# 00:1775 $cd $7d $29
+    ld   A, $33                                        ;;# 00:1778 $3e $33
+    ld   [wPlayerDamagedTimer], A                      ;;# 00:177a $ea $d2 $c4
+    ret                                                ;;# 00:177d $c9
 
 ds 1 ; Free space
 
