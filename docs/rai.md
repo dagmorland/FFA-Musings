@@ -69,4 +69,29 @@ All fixes will be documented directly in the [Glitch Encyclopedia](glitch)
 
 # RAI At Design Feature Enhancements
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Follower Follows the Player After a Chain Pull</legend>
+
+#### Synopsis
+
+If a player uses a chain weapon to pull himself across a gap to a post, then
+the follower can visually look left behind. Miraculously, the follower is back
+with the player on the next screen. This enhancement makes it so followers
+jump the gap with the player on chain pulls.
+
+#### RAI Status
+
+Issue: [Follower Needs to Follow the Player After a Chain Pull](https://github.com/dagmorland/FFA-Musings/issues/40)<br>
+Release Version: TBD
+
+#### Example
+
+Chain pull with a follower before the fix.<br>
+![Chain Pull Before](img/issue40_before.gif)
+
+Chain pull with a follower after the fix.<br>
+![Chain Pull After](img/issue40_after.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
