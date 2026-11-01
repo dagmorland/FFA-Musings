@@ -276,8 +276,8 @@ map06_room07_01_tiles:
     db   $10, $13                                      ;; 07:7832 ??
     db   $02, $18                                      ;; 07:7834 ??
     ; Use two custom metatiles to fix wall height
-    db   $4b, $22                                      ;; 07:7836 ??
-    db   $4c, $23                                      ;; 07:7838 ??
+    db   $4b, $22                                      ;;X 07:7836 ??
+    db   $4c, $23                                      ;;X 07:7838 ??
     db   $ff, $ff                                      ;; 07:783a ??
 
 map06_room00_02_script:
