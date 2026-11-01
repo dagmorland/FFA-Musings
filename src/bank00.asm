@@ -2103,8 +2103,8 @@ GetObjectX:
     add  HL, HL                                        ;; 00:0c33 $29
     ld   BC, wObjectRuntimeData                        ;; 00:0c34 $01 $00 $c2
     add  HL, BC                                        ;; 00:0c37 $09
-    ld   BC, $05
-    add  HL, BC
+    ld   BC, $05                                       ;;X 00:0c38 $11 $05 $00
+    add  HL, BC                                        ;;X 00:0c3b $19
     ld   A, [HL]                                       ;; 00:0c3c $7e
     ret                                                ;; 00:0c3d $c9
 
@@ -2117,8 +2117,8 @@ GetObjectY:
     add  HL, HL                                        ;; 00:0c44 $29
     ld   BC, wObjectRuntimeData                        ;; 00:0c45 $01 $00 $c2
     add  HL, BC                                        ;; 00:0c48 $09
-    ld   BC, $04
-    add  HL, BC
+    ld   BC, $04                                       ;;X 00:0c49 $11 $04 $00
+    add  HL, BC                                        ;;X 00:0c4c $19
     ld   A, [HL]                                       ;; 00:0c4d $7e
     ret                                                ;; 00:0c4e $c9
     db   $69, $26, $00, $29, $29, $29, $29, $01        ;; 00:0c4f ????????
