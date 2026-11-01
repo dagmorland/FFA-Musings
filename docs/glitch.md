@@ -149,4 +149,38 @@ Spear butt keeps flying through a mountain.<br>
 
 </fieldset>
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Wall in Glaive Castle has Unexpected Movement Restriction</legend>
+
+#### Synopsis
+
+There is a room in Glaive Castle where a northern jut out wall does not allow
+the player to approach it. Originally, I thought it was a glitch with the
+collision flags, but the way the game is set up does not allow for a half-height
+wall like this. As such, the fix is to extend the graphics to match the reality
+of the existing movement pattern.
+
+#### Origin
+
+Found while working on [LotMS](https://xenophile127.github.io/Legend-of-the-Mana-Sword/).
+
+#### RAI Status
+
+Issue: [Wall in Glaive Castle has Unexpected Movement Restriction](https://github.com/dagmorland/FFA-Musings/issues/38)<br>
+Release Version: TBD
+
+#### Possible Exploits
+
+Just a graphics glitch, no exploits.
+
+#### Example
+
+Before the fix<br>
+![Weird Wall Before](img/issue38_weird_wall.gif)
+
+After the fix<br>
+![Weird Wall After](img/issue38_wall_fixed.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
