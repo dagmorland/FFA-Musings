@@ -119,4 +119,34 @@ Warping from Undersea Volcano to the Mana Road/Shrine.<br>
 
 </fieldset>
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Spear Butt Keeps Flying Through Walls</legend>
+
+#### Synopsis
+
+If you throw a spear (max will) at a wall or mountain, the tip breaks off but
+the butt keeps flying throw the end of the screen. This is a graphics-only issue
+for FFA, but it does mess with some ROM hacks.
+
+#### Origin
+
+If you've played the game, I bet you've seen this, too.
+
+#### RAI Status
+
+Issue: [Spear Butt Keeps Flying Through Walls](https://github.com/dagmorland/FFA-Musings/issues/36)<br>
+Release Version: TBD
+
+#### Possible Exploits
+
+None that I know of, but the spear butt was causing object interaction issues
+for Embers of Mana.
+
+#### Example
+
+Spear butt keeps flying through a mountain.<br>
+![Spear butt glitch](img/issue36_spear.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
