@@ -5268,6 +5268,8 @@ attackSickleFrame2:
     dw   data_01_6ce4, data_01_6d13, data_01_6d42, data_01_6d71 ;; 01:67a9 ????????
     dw   data_01_6ce4, data_01_6d13, data_01_6d42, data_01_6d71 ;; 01:67b1 ????????
 
+; Updated primary spear object ID to match code expectations for later
+; secondary object destruction in attackObjectFunction02.remove_attack_object.
 attackSpearFrame1:
     db   $04, $48, $02, $05, $09, $00                  ;;X 01:67b9 ??????
     dw   data_08_7360, data_01_696f                    ;; 01:67bf ????
@@ -5276,6 +5278,8 @@ attackSpearFrame1:
     dw   data_01_6ed8, data_01_6ee7, data_01_6ef6, data_01_6f05 ;; 01:67d3 ????????
     dw   data_01_6ed8, data_01_6ee7, data_01_6ef6, data_01_6f05 ;; 01:67db ????????
 
+; Updated secondary spear object ID to match code expectations for later
+; secondary object destruction in attackObjectFunction02.remove_attack_object.
 attackSpearFrame2:
     db   $04, $40, $03, $03, $ff, $00                  ;;X 01:67e3 ??????
     dw   data_08_7360, data_01_6993                    ;; 01:67e9 ????
