@@ -183,4 +183,40 @@ After the fix<br>
 
 </fieldset>
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Snowmen/Chests Twitch while being Pushed</legend>
+
+#### Synopsis
+
+Snowmen (created through the Ice spell) and empty chests are NPCs just like
+any other enemy. That means these seemingly motionless objects are really
+performing behavior patterns and actions just like any other NPC. When an action
+end for an NPC, it snaps to the nearest 8 pixel gridded tile. For these special
+objects, that looks quite strange when they're being pushed around to solve
+puzzles. This is fixed by delaying the 'do nothing' action on these objects
+while they are being pushed, creating smooth motion.
+
+#### Origin
+
+Found while working on [LotMS](https://xenophile127.github.io/Legend-of-the-Mana-Sword/).
+
+#### RAI Status
+
+Issue: [Snowmen/Chests Twitch while being Pushed](https://github.com/dagmorland/FFA-Musings/issues/51)<br>
+Release Version: TBD
+
+#### Possible Exploits
+
+Just a graphics glitch, no exploits.
+
+#### Example
+
+Before the fix<br>
+![Weird Wall Before](img/issue51_before.gif)
+
+After the fix<br>
+![Weird Wall After](img/issue51_after.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
