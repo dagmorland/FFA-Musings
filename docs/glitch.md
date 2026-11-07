@@ -176,10 +176,10 @@ Just a graphics glitch, no exploits.
 #### Example
 
 Before the fix<br>
-![Weird Wall Before](img/issue38_weird_wall.gif)
+![Weird Wall Before Fix](img/issue38_weird_wall.gif)
 
 After the fix<br>
-![Weird Wall After](img/issue38_wall_fixed.gif)
+![Weird Wall After Fix](img/issue38_wall_fixed.gif)
 
 </fieldset>
 
@@ -194,7 +194,9 @@ performing behavior patterns and actions just like any other NPC. When an action
 end for an NPC, it snaps to the nearest 8 pixel gridded tile. For these special
 objects, that looks quite strange when they're being pushed around to solve
 puzzles. This is fixed by delaying the 'do nothing' action on these objects
-while they are being pushed, creating smooth motion.
+while they are being pushed, creating smooth motion. This was originally the
+bug fix for [Trigger Tile Misses from 8px Snapping](https://github.com/dagmorland/FFA-Musings/issues/31),
+but a more general fix was later employed.
 
 #### Origin
 
@@ -212,10 +214,10 @@ Just a graphics glitch, no exploits.
 #### Example
 
 Before the fix<br>
-![Weird Wall Before](img/issue51_before.gif)
+![Moving Snowman Before Fix](img/issue51_before.gif)
 
 After the fix<br>
-![Weird Wall After](img/issue51_after.gif)
+![Moving Snowman After Fix](img/issue51_after.gif)
 
 </fieldset>
 
