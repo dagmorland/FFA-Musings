@@ -12,3 +12,4 @@ This is the default 'landing' branch for hosting GitHub Pages and Issue Template
 4. Modified code in the original location should append an `X` after the `;;` in the comment; e.g., `;;X 01:67e3`
 5. New code (or modified code in a new location) should remove trailing `;;` comments
 6. Prefer use of `call` and `ret` instead of `jp` at end of functions when possible
+7. Prefer to leave the end of banks alone to promote compatibility with other patches.
