@@ -2266,10 +2266,10 @@ npcActionJumptable:
     dw   npcWalkSpeedDefault                           ;; 03:4c73 pP $0f
     dw   npcWalkInPlace1                               ;; 03:4c75 pP $10
     dw   npcWalkInPlace2                               ;; 03:4c77 pP $11
-    dw   npcWalkInPlaceWithMovingHold2                 ;;X 03:4c79 ?? $12
+    dw   npcWalkInPlace3                               ;; 03:4c79 ?? $12
     dw   npcWalkInPlace4                               ;; 03:4c7b pP $13
-    dw   npcWalkInPlace5                               ;; 03:4c7d ?? $14
-    dw   npcWalkInPlace6                               ;; 03:4c7f ?? $15
+    dw   npcWalkInPlaceWithMovingHold2                 ;;X 03:4c7d ?? $14
+    dw   ld_C_into_A                                   ;;X 03:4c7f ?? $15
     dw   ld_C_into_A                                   ;; 03:4c81 ?? $16
     dw   ld_C_into_A                                   ;; 03:4c83 ?? $17
     dw   ld_C_into_A                                   ;; 03:4c85 ?? $18
@@ -2839,14 +2839,12 @@ npcWalkInPlace2:
     call processDelay                                  ;; 03:5021 $cd $df $55
     ret                                                ;; 03:5024 $c9
 
-; Operates the same as npcWalkInPlace2, but does not complete
-; the action if currently being pushed
-npcWalkInPlaceWithMovingHold2:
+npcWalkInPlace3:
     ld   A, C                                          ;; 03:5025 $79
     cp   A, $00                                        ;; 03:5026 $fe $00
-    ld   C, $3c                                        ;;X 03:5028 $0e $5a
+    ld   C, $5a                                        ;; 03:5028 $0e $5a
     call Z, call_03_55cb                               ;; 03:502a $cc $cb $55
-    call processDelayWithMovingHold                    ;;X 03:502d $cd $df $55
+    call processDelay                                  ;; 03:502d $cd $df $55
     ret                                                ;; 03:5030 $c9
 
 npcWalkInPlace4:
@@ -2857,21 +2855,30 @@ npcWalkInPlace4:
     call processDelay                                  ;; 03:5039 $cd $df $55
     ret                                                ;; 03:503c $c9
 
-npcWalkInPlace5:
+; Operates the same as npcWalkInPlace2, but does not complete
+; the action if currently being pushed
+npcWalkInPlaceWithMovingHold2:
     ld   A, C                                          ;; 03:503d $79
     cp   A, $00                                        ;; 03:503e $fe $00
-    ld   C, $96                                        ;; 03:5040 $0e $96
+    ld   C, $3c                                        ;;X 03:5040 $0e $96
     call Z, call_03_55cb                               ;; 03:5042 $cc $cb $55
-    call processDelay                                  ;; 03:5045 $cd $df $55
+    call processDelayWithMovingHold                    ;;X 03:5045 $cd $df $55
     ret                                                ;; 03:5048 $c9
 
-npcWalkInPlace6:
-    ld   A, C                                          ;; 03:5049 $79
-    cp   A, $00                                        ;; 03:504a $fe $00
-    ld   C, $b4                                        ;; 03:504c $0e $b4
-    call Z, call_03_55cb                               ;; 03:504e $cc $cb $55
-    call processDelay                                  ;; 03:5051 $cd $df $55
-    ret                                                ;; 03:5054 $c9
+; Same intent as processDelay (process delay action), but prevent
+; delay timer hitting 0 while the object is moving. This is done by
+; incrementing the delay timer by 2 when on an even delay timer value.
+; It is not appropriate to increment the timer on every tick since the
+; game uses the even/odd nature of the timer to govern animations.
+processDelayWithMovingHold:
+    call processDelay
+    bit  0, A
+    ret  NZ
+    bit  4, B
+    ret  Z
+    inc  A
+    inc  A
+    ret
 
 npcFaceEast:
     ld   A, [DE]                                       ;; 03:5055 $1a
@@ -4130,7 +4137,7 @@ npcBehaviorTable:
     db   $b4, $b5, $06, $07, $06, $07, $06, $02, $02, $02, $02, $28, $28, $28, $0f, $0f, $b0, $b0, $b2, $b3, $b4, $b5, $b4, $b5, $b8, $b9, $ba, $bb, $b4, $b5, $b4, $b5 ;; 03:591e ???????????????????????????????? $17
     db   $09, $09, $09, $09, $09, $09, $09, $09, $0e, $0f, $06, $07, $74, $75, $6e, $6f, $6c, $6d, $6e, $6f, $70, $69, $72, $73, $64, $65, $66, $67, $68, $69, $6a, $6b ;; 03:593e ???????????????????????????????? $18
     ; Creates a behavior pattern that only has delay actions that pause on being moved
-    db   $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12, $12 ;;X 03:595e ???????????????????????????????? $19
+    db   $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14, $14 ;;X 03:595e ???????????????????????????????? $19
     db   $04, $04, $06, $07, $06, $07, $04, $04, $64, $65, $0e, $0e, $0e, $0e, $0e, $0e, $04, $04, $04, $04, $05, $06, $07, $08, $0e, $0e, $0e, $0e, $0e, $0e, $0e, $0e ;; 03:597e ???????????????????????????????? $1a
     db   $11, $11, $11, $11, $11, $11, $11, $11, $11, $02, $02, $02, $02, $02, $02, $02, $74, $75, $6e, $6f, $78, $79, $7a, $7b, $11, $11, $11, $11, $11, $11, $11, $11 ;; 03:599e ???????????????????????????????? $1b
     db   $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $0b, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10 ;; 03:59be ???????????????????????????????? $1c
@@ -4152,17 +4159,3 @@ tileorderNpc:
 
 INCLUDE "data/npc/metasprites.asm"
 
-; Same intent as processDelay (process delay action), but prevent
-; delay timer hitting 0 while the object is moving. This is done by
-; incrementing the delay timer by 2 when on an even delay timer value.
-; It is not appropriate to increment the timer on every tick since the
-; game uses the even/odd nature of the timer to govern animations.
-processDelayWithMovingHold:
-    call processDelay
-    bit  0, A
-    ret  NZ
-    bit  4, B
-    ret  Z
-    inc  A
-    inc  A
-    ret
