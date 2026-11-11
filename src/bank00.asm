@@ -1565,9 +1565,11 @@ moveGridlessObject:
 
 ; DE = yx object distance and direction to move
 ; HL = object runtime data pointer for selected object
+; Return: Carry flag set if object is unmoved, either due to DE == 0 or collision.
 moveObject:
     push HL                                            ;; 00:0961 $e5
     push DE                                            ;; 00:0962 $d5
+; Load object position and add distances to move.
     ld   BC, $04                                       ;; 00:0963 $01 $04 $00
     add  HL, BC                                        ;; 00:0966 $09
     ld   A, [HL+]                                      ;; 00:0967 $2a
@@ -1576,10 +1578,13 @@ moveObject:
     ld   A, [HL-]                                      ;; 00:096a $3a
     add  A, E                                          ;; 00:096b $83
     ld   E, A                                          ;; 00:096c $5f
+; Pop move vectors into BC.
     pop  BC                                            ;; 00:096d $c1
+; Skip collision handling if in a script or otherwise non-interactive.
     ld   A, [wMainGameStateFlags]                      ;; 00:096e $fa $a1 $c0
     bit  2, A                                          ;; 00:0971 $cb $57
     jr   NZ, .jr_00_099f                               ;; 00:0973 $20 $2a
+; Calculate the object id from hl, which currently points to the object's y position.
     push BC                                            ;; 00:0975 $c5
     push DE                                            ;; 00:0976 $d5
     push HL                                            ;; 00:0977 $e5
@@ -1614,6 +1619,7 @@ moveObject:
     add  A, E                                          ;; 00:099d $83
     ld   E, A                                          ;; 00:099e $5f
 .jr_00_099f:
+; Move the object to the new position and calculate the move vectors.
     ld   A, D                                          ;; 00:099f $7a
     ld   B, [HL]                                       ;; 00:09a0 $46
     ld   [HL+], A                                      ;; 00:09a1 $22
@@ -1624,6 +1630,7 @@ moveObject:
     ld   [HL], A                                       ;; 00:09a6 $77
     sub  A, C                                          ;; 00:09a7 $91
     ld   C, A                                          ;; 00:09a8 $4f
+; Load the shadow OAM address for this object.
     pop  HL                                            ;; 00:09a9 $e1
     push BC                                            ;; 00:09aa $c5
     push HL                                            ;; 00:09ab $e5
@@ -1633,6 +1640,7 @@ moveObject:
     ld   H, [HL]                                       ;; 00:09b1 $66
     ld   L, A                                          ;; 00:09b2 $6f
 ; HL = sprite shadow OAM address for the first sprite of this object
+; Write YX locations for both sprites.
     ld   A, E                                          ;; 00:09b3 $7b
     add  A, $08                                        ;; 00:09b4 $c6 $08
     ld   [HL], D                                       ;; 00:09b6 $72
@@ -1644,6 +1652,7 @@ moveObject:
     ld   [HL], D                                       ;; 00:09bc $72
     inc  HL                                            ;; 00:09bd $23
     ld   [HL], A                                       ;; 00:09be $77
+; If bit 6 of the orientation byte is set then reset it and return.
     pop  HL                                            ;; 00:09bf $e1
     pop  BC                                            ;; 00:09c0 $c1
     bit  6, [HL]                                       ;; 00:09c1 $cb $76
@@ -1653,7 +1662,9 @@ moveObject:
     and  A, $07                                        ;; 00:09c7 $e6 $07
 ; return if not aligned to the eight pixel grid
     ret  NZ                                            ;; 00:09c9 $c0
+; Reset the moving/unaligned bit.
     res  7, [HL]                                       ;; 00:09ca $cb $be
+; Calculate the object id again.
     push BC                                            ;; 00:09cc $c5
     push DE                                            ;; 00:09cd $d5
     push HL                                            ;; 00:09ce $e5
@@ -1668,12 +1679,15 @@ moveObject:
     swap A                                             ;; 00:09de $cb $37
     or   A, L                                          ;; 00:09e0 $b5
     ld   B, A                                          ;; 00:09e1 $47
+; b = object id.
+; Get the object's collision flags.
     pop  HL                                            ;; 00:09e2 $e1
     pop  DE                                            ;; 00:09e3 $d1
     inc  HL                                            ;; 00:09e4 $23
     inc  HL                                            ;; 00:09e5 $23
     ld   A, [HL-]                                      ;; 00:09e6 $3a
     ld   C, A                                          ;; 00:09e7 $4f
+; c = object collision flags.
     pop  HL                                            ;; 00:09e8 $e1
     ld   A, $00                                        ;; 00:09e9 $3e $00
     cp   A, H                                          ;; 00:09eb $bc
@@ -1773,7 +1787,7 @@ secondaryCollisionHandling:
 ; C  = object type ("collision flags")
 ; DE = position in tiles
 ; HL = metatile pointer
-; Return: C = object id
+; Return: C = object id (or $FF on failure)
 createObject:
     push DE                                            ;; 00:0a74 $d5
     push HL                                            ;; 00:0a75 $e5
@@ -1781,42 +1795,53 @@ createObject:
     ld   HL, wObjectRuntimeData                        ;; 00:0a77 $21 $00 $c2
     ld   DE, $10                                       ;; 00:0a7a $11 $10 $00
     ld   A, $ff                                        ;; 00:0a7d $3e $ff
+; A max of 20 objects because the GB only allows 40 hardware sprites and each object needs two.
     ld   B, $14                                        ;; 00:0a7f $06 $14
 .loop:
     cp   A, [HL]                                       ;; 00:0a81 $be
-    jr   Z, .jr_00_0a8e                                ;; 00:0a82 $28 $0a
+    jr   Z, .create                                    ;; 00:0a82 $28 $0a
     add  HL, DE                                        ;; 00:0a84 $19
     dec  B                                             ;; 00:0a85 $05
     jr   NZ, .loop                                     ;; 00:0a86 $20 $f9
+; No space. Return c = $ff.
     pop  AF                                            ;; 00:0a88 $f1
     pop  HL                                            ;; 00:0a89 $e1
     pop  DE                                            ;; 00:0a8a $d1
     ld   C, $ff                                        ;; 00:0a8b $0e $ff
     ret                                                ;; 00:0a8d $c9
-.jr_00_0a8e:
+.create:
     pop  AF                                            ;; 00:0a8e $f1
     pop  DE                                            ;; 00:0a8f $d1
     push HL                                            ;; 00:0a90 $e5
+; Orientation (objects are always created facing south).
     ld   [HL], $08                                     ;; 00:0a91 $36 $08
     inc  HL                                            ;; 00:0a93 $23
+; Movement speed (delay until action).
     ld   [HL], A                                       ;; 00:0a94 $77
     inc  HL                                            ;; 00:0a95 $23
+; Collision flags.
     ld   [HL], C                                       ;; 00:0a96 $71
     inc  HL                                            ;; 00:0a97 $23
+; Unknown.
     ld   [HL], $00                                     ;; 00:0a98 $36 $00
     inc  HL                                            ;; 00:0a9a $23
+; Initialize Y position to zero for now.
     ld   [HL], $00                                     ;; 00:0a9b $36 $00
     inc  HL                                            ;; 00:0a9d $23
+; Initialize X position to zero for now.
     ld   [HL], $00                                     ;; 00:0a9e $36 $00
     inc  HL                                            ;; 00:0aa0 $23
+; Metasprite table pointer.
     ld   [HL], E                                       ;; 00:0aa1 $73
     inc  HL                                            ;; 00:0aa2 $23
     ld   [HL], D                                       ;; 00:0aa3 $72
     pop  HL                                            ;; 00:0aa4 $e1
     push BC                                            ;; 00:0aa5 $c5
+; Set initial animation frame to south facing.
     ld   DE, $09                                       ;; 00:0aa6 $11 $09 $00
     call setMetaspriteForObject                        ;; 00:0aa9 $cd $8a $08
     pop  BC                                            ;; 00:0aac $c1
+; Calculate the object position in pixels given the requested position in tiles.
     pop  DE                                            ;; 00:0aad $d1
     ld   A, D                                          ;; 00:0aae $7a
     add  A, $02                                        ;; 00:0aaf $c6 $02
@@ -1834,18 +1859,22 @@ createObject:
     push AF                                            ;; 00:0abf $f5
     set  1, A                                          ;; 00:0ac0 $cb $cf
     ld   [wMainGameStateFlags], A                      ;; 00:0ac2 $ea $a1 $c0
+; Set the object postion. Note this can cause a glitch when moveObject
+; calls collision handling before object initialization is complete;
+; e.g., in spawnProjectile.
     push BC                                            ;; 00:0ac5 $c5
     call moveObject                                    ;; 00:0ac6 $cd $61 $09
     pop  BC                                            ;; 00:0ac9 $c1
     ld   A, $14                                        ;; 00:0aca $3e $14
-    jr   C, .jr_00_0ad6                                ;; 00:0acc $38 $08
+    jr   C, .move_failed                               ;; 00:0acc $38 $08
     sub  A, B                                          ;; 00:0ace $90
     ld   C, A                                          ;; 00:0acf $4f
     pop  AF                                            ;; 00:0ad0 $f1
     ld   [wMainGameStateFlags], A                      ;; 00:0ad1 $ea $a1 $c0
     ld   A, C                                          ;; 00:0ad4 $79
     ret                                                ;; 00:0ad5 $c9
-.jr_00_0ad6:
+.move_failed:
+; Destroy the object if it could not be reposistioned from 0,0.
     sub  A, B                                          ;; 00:0ad6 $90
     ld   C, A                                          ;; 00:0ad7 $4f
     call destroyObject                                 ;; 00:0ad8 $cd $e3 $0a
