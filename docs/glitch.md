@@ -226,7 +226,7 @@ After the fix<br>
 
 #### Synopsis
 
-When a projectile is spawned by an NPC, like a sword from Bogard or arrow from Lester, an object is created and collisions are tested
+When a projectile is spawned by a follower, like a sword from Bogard or arrow from Lester, an object is created and collisions are tested
 before the game finishes defining the projectile in memory. After one frame, everything is finished and the projectile acts as expected,
 but if the character that launched the projectile is right next to an enemy, the game reads the projectile statistics from the wrong
 locations in memory. This can lead to attacks working when they shouldn't (or vice versa) or attacks being incredibly powerful (or vice versa).
