@@ -221,4 +221,145 @@ After the fix<br>
 
 </fieldset>
 
+<fieldset markdown="1" style="border: 1px solid #cccccc; border-radius: 6px; padding: 15px; background: transparent; margin-bottom: 20px;">
+<legend style="padding: 0 8px; font-weight: bold; font-size: 1.25em; color: #cccccc;">Close Range NPC Attacks have Unpredictable Results</legend>
+
+#### Synopsis
+
+When a projectile is spawned by an NPC, like a sword from Bogard or arrow from Lester, an object is created and collisions are tested
+before the game finishes defining the projectile in memory. After one frame, everything is finished and the projectile acts as expected,
+but if the character that launched the projectile is right next to an enemy, the game reads the projectile statistics from the wrong
+locations in memory. This can lead to attacks working when they shouldn't (or vice versa) or attacks being incredibly powerful (or vice versa).
+
+#### Origin
+
+I found this bug while doing speedruns with a route that brought Man along with me to fight Julius. I noticed that Man somehow was hurting J2 (the second form of Julius) when
+he attacked at close range. This can be seen in [one of my speedruns](https://www.speedrun.com/ffa/runs/yonkkndz) (look around 29:06 speedrun time, 29:21 video time).
+
+#### RAI Status
+
+Issue: [Close Range NPC Attacks have Unpredictable Results](https://github.com/dagmorland/FFA-Musings/issues/55)<br>
+Release Version: TBD
+
+#### Possible Exploits
+
+This is exploitable for speed runs, but the applications are niche. Here are the different attack configurations that I've found so far:
+
+*Default through normal gameplay*
+Projectile address: $0800
+Projectile size: 2
+Projectile element: ice and physical ($11)
+Projectile power: 0
+
+Set up: If the player has recently acted, this is what will be loaded.
+
+Use cases: None since power is 0. This is the most common impact of the bug, and leads to a lot of 'clink' sounds against bosses.
+
+*Two moving background tiles*
+Projectile address: $0C00
+Projectile size: 197
+Projectile element: Fire, Mithril, and Plain ($0B)
+Projectile power: 205
+
+Set up: This one is a bit odd. If you enter a room where there are two or more different animated tiles (e.g., waterfalls, ocean, lava, but not pond/stream),
+then as long as the player isn't actively moving, the follower close range attack will use these values. Moreso, you can move between multiple rooms on the same map
+(e.g., without a shutter effect between rooms) and retain this benefit.
+
+Use cases: This is a lot of power in elements that are rarely resisted, especially by bosses. Unfortunately, I don't think the set
+up conditions are ever met in standard play for any bosses. They are met in some cases for normal enemies (e.g., walking with Bogard
+on the coast with crab enemies), but that's not too exciting. The real value here comes in glitched routes for speed runs. For instance,
+if you take any follower with an attack in to fight Metal Crab, you can first find some lava in the same map to set up the glitch,
+then let your follower attack him at close range for high power (only takes a few hits I think). This is also how Man is doing damage
+to J2 in the speed run linked in the Origin section.
+
+*Load Save 1*
+Projectile address: $0900
+Projectile size: 203
+Projectile element: Lightning
+Projectile damage: 128
+
+Set up: Save your game, restart, load the save, and don't do anything else. Sometimes you'll get this pattern, sometimes you'll get Load Save 2.
+It appears to depend on which enemies are loaded on screen, and which projectiles they carry. Any player movement sets the
+glitched close range attack back to the default $0800 values; this includes movement from getting hit by enemies.
+
+Use cases: This is an easy way to give followers attacks that doesn't include the basic Physical and Mattock elements. This allows the followers
+to kill enemies that they normally cannot kill (Face Orb, Eye Spy, Gas Cloud, etc.). It also can be used on bosses to significantly increase follower
+attack damage. Base attack damage for each follower is 13 (Man), 25 (Watts), 39 (Bogard), 43 (Amanda), 44 (Lester), and 95 (Marcie). 
+It could be used to farm experience in speed runs from enemies typically out of reach in the early game. It could also be used on bosses not immune to
+lightning, but keep in mind that as soon as your injured or move the glitch goes back to the default. The standard Man vs Hydra fight follows this pattern,
+but it's not worth the save/reload hassle to try to get Man to hit on Hyrdra's first walk forward.
+
+*Load Save 2*
+Projectile address: $0A00
+Projectile size: 230
+Projectile element: Status, Nuke, Lightning, Ice
+Projectile damage: 40
+
+Set up: Save your game, restart, load the save, and don't do anything else. Sometimes you'll get this pattern, sometimes you'll get Load Save 1.
+It appears to depend on which enemies are loaded on screen, and which projectiles they carry. Any player movement sets the
+glitched close range attack back to the default $0800 values; this includes movement from getting hit by enemies.
+
+Use cases: This is an easy way to give followers attacks that don't include the basic Physical and Mattock elements. This allows the followers
+to kill enemies that they normally cannot kill (Face Orb, Eye Spy, Gas Cloud, etc.). I don't think this is especially useful, but this is a damage
+upgrade to Man (13), Watts (25), and Bogard (39). Unfortunately, all bosses except Jackal and Davias are immune to the Status element, so this
+produces immunity 'clinks' against the more interesting boss use cases. It could be used to farm experience with some normal enemies typically
+out of reach in the early game.
+
+*Load Save 3*
+Projectile address: $0B00
+Projectile size: 34
+Projectile element: Nuke, Fire, Mattock, Mithril
+Projectile damage: 34
+
+Set up: Save your game, restart, load the save, and don't do anything else. If
+you're fighting a boss, you may get this pattern instead of Load Save 1 or 2.  Any player movement sets the
+glitched close range attack back to the default $0800 values; this includes
+movement from getting hit by the boss.
+
+Use cases: Similar to Load Save 2, but different elements allows more boss fights. Still generally not worth it given the challenge of keeping
+the player still.
+
+*Save Screen*
+Projectile address: $C700
+Projectile size: ??
+Projectile element: ??
+Projectile damage: ??
+
+Set up: Open the save menu, then cancel back out. Any player movement sets the
+glitched close range attack back to the default $0800 values; this includes
+movement from getting hit by the boss.
+
+Use cases: Instead of pulling from ROM like the other methods, this pulls from deep in the graphics transfer buffer. It's likely the graphics
+that make up the room will set the values read from this location. There may be good combos here for those willing to find them.
+
+*Map Screen*
+Projectile address: $0C00
+Projectile size: 197
+Projectile element: Fire, Mithril, and Plain ($0B)
+Projectile power: 205
+
+Set up: Open the map (which only works on certain rooms), then cancel back out. Any player movement sets the
+glitched close range attack back to the default $0800 values; this includes
+movement from getting hit by the boss.
+
+Use cases: Same effect as the 'Two Moving Background Tiles' option, but only lasts until the player moves or is hit. This can open up opportunities
+to do significant damage to a boss if a map can be opened and they aren't immune to the attack (Metal Crab and Mantis Ant for instance). It's also a good way to get
+some experience with a follower attacking high level mobs.
+
+*There may be more options that have not yet been discovered!*
+
+#### Example
+
+Here's an example of using save/load to put the follower attack in a mode that pulls close range projectile stats from $0900. Typically a Face Orb is immune to phyical and mattock damage and
+cannot be killed by Lester's arrows (physical damage). The element loaded by $0900 is $20, which corresponds to just lightning. This bypasses the Face Orb immunity and the
+attack lands. This could be used to grab a Mattok item in case you were out of mana for Fire.
+
+Before the fix<br>
+![Lester Kills Face Orb Before Fix](img/issue55_before.gif)
+
+After the fix<br>
+![Lester Cannot Kill Face Orb After Fix](img/issue55_after.gif)
+
+</fieldset>
+
 ![Under Construction](img/coffee_break.gif)
