@@ -245,21 +245,21 @@ Release Version: TBD
 
 This is exploitable for speed runs, but the applications are niche. Here are the different attack configurations that I've found so far:
 
-*Default through normal gameplay*
-Projectile address: $0800
-Projectile size: 2
-Projectile element: ice and physical ($11)
-Projectile power: 0
+<u>Default through Normal Gameplay</u>
+Projectile address: $0800<br>
+Projectile size: 2<br>
+Projectile element: Ice and Physical ($11)<br>
+Projectile power: 0<br>
 
 Set up: If the player has recently acted, this is what will be loaded.
 
 Use cases: None since power is 0. This is the most common impact of the bug, and leads to a lot of 'clink' sounds against bosses.
 
-*Two moving background tiles*
-Projectile address: $0C00
-Projectile size: 197
-Projectile element: Fire, Mithril, and Plain ($0B)
-Projectile power: 205
+<u>Default with Two Moving Background Tiles</u>
+Projectile address: $0C00<br>
+Projectile size: 197<br>
+Projectile element: Fire, Mithril, and Plain ($0B)<br>
+Projectile power: 205<br>
 
 Set up: This one is a bit odd. If you enter a room where there are two or more different animated tiles (e.g., waterfalls, ocean, lava, but not pond/stream),
 then as long as the player isn't actively moving, the follower close range attack will use these values. Moreso, you can move between multiple rooms on the same map
@@ -272,15 +272,15 @@ if you take any follower with an attack in to fight Metal Crab, you can first fi
 then let your follower attack him at close range for high power (only takes a few hits I think). This is also how Man is doing damage
 to J2 in the speed run linked in the Origin section.
 
-*Load Save 1*
-Projectile address: $0900
-Projectile size: 203
-Projectile element: Lightning
-Projectile damage: 128
+<u>Load Save 1</u>
+Projectile address: $0900<br>
+Projectile size: 203<br>
+Projectile element: Lightning ($20)<br>
+Projectile damage: 128<br>
 
 Set up: Save your game, restart, load the save, and don't do anything else. Sometimes you'll get this pattern, sometimes you'll get Load Save 2.
 It appears to depend on which enemies are loaded on screen, and which projectiles they carry. Any player movement sets the
-glitched close range attack back to the default $0800 values; this includes movement from getting hit by enemies.
+glitched close range attack back to the default values; this includes movement from getting hit by enemies.
 
 Use cases: This is an easy way to give followers attacks that doesn't include the basic Physical and Mattock elements. This allows the followers
 to kill enemies that they normally cannot kill (Face Orb, Eye Spy, Gas Cloud, etc.). It also can be used on bosses to significantly increase follower
@@ -289,15 +289,15 @@ It could be used to farm experience in speed runs from enemies typically out of 
 lightning, but keep in mind that as soon as your injured or move the glitch goes back to the default. The standard Man vs Hydra fight follows this pattern,
 but it's not worth the save/reload hassle to try to get Man to hit on Hyrdra's first walk forward.
 
-*Load Save 2*
-Projectile address: $0A00
-Projectile size: 230
-Projectile element: Status, Nuke, Lightning, Ice
-Projectile damage: 40
+<u>Load Save 2</u>
+Projectile address: $0A00<br>
+Projectile size: 230<br>
+Projectile element: Status, Nuke, Lightning, Ice ($F0)<br>
+Projectile damage: 40<br>
 
 Set up: Save your game, restart, load the save, and don't do anything else. Sometimes you'll get this pattern, sometimes you'll get Load Save 1.
 It appears to depend on which enemies are loaded on screen, and which projectiles they carry. Any player movement sets the
-glitched close range attack back to the default $0800 values; this includes movement from getting hit by enemies.
+glitched close range attack back to the default values; this includes movement from getting hit by enemies.
 
 Use cases: This is an easy way to give followers attacks that don't include the basic Physical and Mattock elements. This allows the followers
 to kill enemies that they normally cannot kill (Face Orb, Eye Spy, Gas Cloud, etc.). I don't think this is especially useful, but this is a damage
@@ -305,44 +305,44 @@ upgrade to Man (13), Watts (25), and Bogard (39). Unfortunately, all bosses exce
 produces immunity 'clinks' against the more interesting boss use cases. It could be used to farm experience with some normal enemies typically
 out of reach in the early game.
 
-*Load Save 3*
-Projectile address: $0B00
-Projectile size: 34
-Projectile element: Nuke, Fire, Mattock, Mithril
-Projectile damage: 34
+<u>Load Save 3</u>
+Projectile address: $0B00<br>
+Projectile size: 34<br>
+Projectile element: Nuke, Fire, Mattock, Mithril ($4E)<br>
+Projectile damage: 34<br>
 
 Set up: Save your game, restart, load the save, and don't do anything else. If
 you're fighting a boss, you may get this pattern instead of Load Save 1 or 2.  Any player movement sets the
-glitched close range attack back to the default $0800 values; this includes
+glitched close range attack back to the default values; this includes
 movement from getting hit by the boss.
 
 Use cases: Similar to Load Save 2, but different elements allows more boss fights. Still generally not worth it given the challenge of keeping
 the player still.
 
-*Save Screen*
-Projectile address: $C700
-Projectile size: ??
-Projectile element: ??
-Projectile damage: ??
+<u>Save Screen</u>
+Projectile address: $C700<br>
+Projectile size: ??<br>
+Projectile element: ??<br>
+Projectile damage: ??<br>
 
 Set up: Open the save menu, then cancel back out. Any player movement sets the
-glitched close range attack back to the default $0800 values; this includes
+glitched close range attack back to the default values; this includes
 movement from getting hit by the boss.
 
 Use cases: Instead of pulling from ROM like the other methods, this pulls from deep in the graphics transfer buffer. It's likely the graphics
 that make up the room will set the values read from this location. There may be good combos here for those willing to find them.
 
-*Map Screen*
-Projectile address: $0C00
-Projectile size: 197
-Projectile element: Fire, Mithril, and Plain ($0B)
-Projectile power: 205
+<u>Map Screen</u>
+Projectile address: $0C00<br>
+Projectile size: 197<br>
+Projectile element: Fire, Mithril, and Plain ($0B)<br>
+Projectile power: 205<br>
 
 Set up: Open the map (which only works on certain rooms), then cancel back out. Any player movement sets the
-glitched close range attack back to the default $0800 values; this includes
+glitched close range attack back to the default values; this includes
 movement from getting hit by the boss.
 
-Use cases: Same effect as the 'Two Moving Background Tiles' option, but only lasts until the player moves or is hit. This can open up opportunities
+Use cases: Same effect as the 'Default with Two Moving Background Tiles' option, but only lasts until the player moves or is hit. This can open up opportunities
 to do significant damage to a boss if a map can be opened and they aren't immune to the attack (Metal Crab and Mantis Ant for instance). It's also a good way to get
 some experience with a follower attacking high level mobs.
 
